@@ -243,6 +243,8 @@ function handleCheckboxChange(e, pokemonId, card) {
     card.style.transition = 'opacity 0.3s';
     setTimeout(() => {
       card.style.display = 'none';
+      // 動畫完成後重新渲染，檢查是否所有未收集的都已完成
+      renderPokemon();
     }, 300);
   } else if (currentFilter === 'collected' && !isChecked) {
     // 淡出動畫效果
@@ -250,6 +252,7 @@ function handleCheckboxChange(e, pokemonId, card) {
     card.style.transition = 'opacity 0.3s';
     setTimeout(() => {
       card.style.display = 'none';
+      renderPokemon();
     }, 300);
   }
 
