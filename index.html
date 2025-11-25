@@ -432,6 +432,7 @@
         <select id="filterSelect">
           <option value="all">全部 (230)</option>
           <option value="collected">已收集</option>
+          <option value="skipped">已跳過</option>
           <option value="uncollected">未收集</option>
         </select>
       </div>
@@ -475,7 +476,7 @@
       const hash = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
       const filter = params.get('filter');
-      return filter && ['all', 'collected', 'uncollected'].includes(filter) ? filter : 'all';
+      return filter && ['all', 'collected', 'skipped', 'uncollected'].includes(filter) ? filter : 'all';
     }
 
     // 更新 URL hash
@@ -607,6 +608,9 @@
         if (currentFilter === 'collected') {
           // 已收集篩選：包含已收集的和已跳過的
           return collectedPokemon.has(pokemon.id) || skippedPokemon.has(pokemon.id);
+        } else if (currentFilter === 'skipped') {
+          // 已跳過篩選：只包含已跳過的
+          return skippedPokemon.has(pokemon.id);
         } else if (currentFilter === 'uncollected') {
           // 未收集篩選：不包含已跳過的
           return !collectedPokemon.has(pokemon.id) && !skippedPokemon.has(pokemon.id);
