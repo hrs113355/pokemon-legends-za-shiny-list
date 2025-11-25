@@ -316,6 +316,45 @@
       font-size: 1.2em;
     }
 
+    .empty-state.congratulations {
+      font-size: 2em;
+      font-weight: 700;
+      padding: 80px 20px;
+      animation: celebrateIn 0.6s ease-out;
+    }
+
+    .empty-state.congratulations .celebration-emoji {
+      font-size: 4em;
+      margin-bottom: 20px;
+      display: inline-block;
+      animation: bounce 0.6s ease-out;
+    }
+
+    @keyframes celebrateIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes bounce {
+      0% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     @media (max-width: 768px) {
       .header h1 {
         font-size: 1.8em;
@@ -539,7 +578,18 @@
       const filteredPokemon = filterPokemon();
 
       if (filteredPokemon.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><div>沒有找到符合條件的寶可夢 🎉</div></div>';
+        // 如果篩選為「未收集」且沒有結果，顯示恭喜訊息
+        if (currentFilter === 'uncollected') {
+          grid.innerHTML = `
+            <div class="empty-state congratulations">
+              <div class="celebration-emoji">🎉</div>
+              <div>恭喜！</div>
+              <div>你已經收集完所有的寶可夢了！</div>
+            </div>
+          `;
+        } else {
+          grid.innerHTML = '<div class="empty-state"><div>沒有找到符合條件的寶可夢 🎉</div></div>';
+        }
         return;
       }
 
